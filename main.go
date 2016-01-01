@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"html/template"
 	"net/http"
-	"strings"
 	"sync"
 
 	"github.com/eirka/eirka-libs/config"

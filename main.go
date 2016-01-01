@@ -46,13 +46,8 @@ func init() {
 
 func main() {
 
-	funcMap := template.FuncMap{
-		"ToUpper": strings.ToUpper,
-		"ToLower": strings.ToLower,
-	}
-
 	// parse our template
-	t := template.Must(template.New("templates").Funcs(funcMap).Delims("[[", "]]").Parse(index))
+	t := template.Must(template.New("templates").Delims("[[", "]]").Parse(index))
 	t = template.Must(t.Parse(head))
 	t = template.Must(t.Parse(header))
 	t = template.Must(t.ParseGlob(fmt.Sprintf("%sincludes/*.tmpl", local.Settings.Directories.AssetsDir)))

@@ -27,8 +27,7 @@ const head = `[[define "head"]]<head>
     <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <script>angular.module('prim').constant('config',{ib_id:'[[ .ib ]]',title:'[[ .title ]]',img_srv:'//[[ .imgsrv ]]',api_srv:'//[[ .apisrv ]]'});</script>
-    [[template "headinclude" . ]]
-</head>[[end]]`
+    [[template "headinclude" . ]]</head>[[end]]`
 
 // site header
 const header = `[[define "header"]]<div class="header_bar">
@@ -36,8 +35,7 @@ const header = `[[define "header"]]<div class="header_bar">
         <div class="nav_menu" ng-controller="NavMenuCtrl as navmenu">
             <ul click-off="navmenu.close" ng-click="navmenu.toggle()" ng-mouseenter="navmenu.open()" ng-mouseleave="navmenu.close()">
                 <li class="n1"><a href><i class="fa fa-fw fa-bars"></i></a>
-                    <ul ng-if="navmenu.visible">
-                        [[template "navmenu" . ]]
+                    <ul ng-if="navmenu.visible">[[template "navmenuinclude" . ]]
                     </ul>
                 </li>
             </ul>

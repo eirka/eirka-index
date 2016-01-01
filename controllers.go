@@ -1,13 +1,8 @@
 package main
 
 import (
-	"fmt"
-	"github.com/facebookgo/grace/gracehttp"
 	"github.com/gin-gonic/gin"
-	"html/template"
 	"net/http"
-	"strings"
-	"sync"
 
 	"github.com/eirka/eirka-libs/db"
 )

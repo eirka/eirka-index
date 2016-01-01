@@ -55,6 +55,7 @@ func main() {
 	t := template.Must(template.New("templates").Funcs(funcMap).Delims("[[", "]]").Parse(index))
 	t = template.Must(t.Parse(head))
 	t = template.Must(t.Parse(header))
+	t = template.Must(t.ParseGlob(fmt.Sprintf("%sincludes/*.tmpl", local.Settings.Directories.AssetsDir)))
 
 	r := gin.Default()
 

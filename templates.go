@@ -27,12 +27,7 @@ const head = `[[define "head"]]<head>
     <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <script>angular.module('prim').constant('config',{ib_id:'[[ .ib ]]',title:'[[ .title ]]',img_srv:'//[[ .imgsrv ]]',api_srv:'//[[ .apisrv ]]'});</script>
-    <script src="//use.typekit.net/tgi8jsa.js"></script>
-    <script>
-    try {
-        Typekit.load();
-    } catch (e) {}
-    </script>
+    [[template "headinclude" . ]]
 </head>[[end]]`
 
 // site header
@@ -42,7 +37,7 @@ const header = `[[define "header"]]<div class="header_bar">
             <ul click-off="navmenu.close" ng-click="navmenu.toggle()" ng-mouseenter="navmenu.open()" ng-mouseleave="navmenu.close()">
                 <li class="n1"><a href><i class="fa fa-fw fa-bars"></i></a>
                     <ul ng-if="navmenu.visible">
-                        <ng-include src="'includes/site.html'"></ng-include>
+                        [[template "navmenu" . ]]
                     </ul>
                 </li>
             </ul>

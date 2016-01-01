@@ -7,19 +7,13 @@ import (
 	"github.com/eirka/eirka-libs/db"
 )
 
-type GlobalData struct {
-	Primcss string
-	Primjs  string
-	Imgsrv  string
-	Apisrv  string
-}
-
 type SiteData struct {
 	Ib    uint
+	Api   string
+	Img   string
 	Title string
 	Desc  string
 	Nsfw  bool
-	Style string
 }
 
 // gets the details from the request for the page handler variables
@@ -44,7 +38,7 @@ func Details() gin.HandlerFunc {
 				return
 			}
 
-			err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw)
+			err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw, &sitedata.Api, &sitedata.Img)
 			if err != nil {
 				c.Error(err)
 				c.Abort()
@@ -72,15 +66,12 @@ func IndexController(c *gin.Context) {
 	mu.RUnlock()
 
 	c.HTML(http.StatusOK, "index", gin.H{
-		"ib":      site.Ib,
-		"title":   site.Title,
-		"desc":    site.Desc,
-		"nsfw":    site.Nsfw,
-		"style":   site.Style,
-		"primjs":  globaldata.Primjs,
-		"primcss": globaldata.Primcss,
-		"imgsrv":  globaldata.Imgsrv,
-		"apisrv":  globaldata.Apisrv,
+		"ib":     site.Ib,
+		"apisrv": site.Api,
+		"imgsrv": site.Img,
+		"title":  site.Title,
+		"desc":   site.Desc,
+		"nsfw":   site.Nsfw,
 	})
 
 	return

@@ -15,12 +15,15 @@ import (
 )
 
 var (
-	sitemap    map[string]*SiteData
-	globaldata GlobalData
-	mu         sync.RWMutex
+	sitemap map[string]*SiteData
+	mu      sync.RWMutex
 )
 
 func init() {
+
+	// map to hold site data so we dont hit the database every time
+	sitemap = make(map[string]*SiteData)
+
 	// Database connection settings
 	dbase := db.Database{
 		User:           local.Settings.Database.User,
@@ -34,16 +37,6 @@ func init() {
 
 	// Set up DB connection
 	dbase.NewDb()
-
-	// map to hold site data so we dont hit the database every time
-	sitemap = make(map[string]*SiteData)
-
-	globaldata = GlobalData{
-		Primcss: "/static/prim.css",
-		Primjs:  "/static/prim.js",
-		Imgsrv:  "images.eirka.com",
-		Apisrv:  "api.trish.io",
-	}
 
 }
 
@@ -63,6 +56,7 @@ func main() {
 
 	// load template into gin
 	r.SetHTMLTemplate(t)
+
 	// serve our assets
 	r.Static("/static", "/data/prim/static")
 

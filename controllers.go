@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 
+	"github.com/eirka/eirka-libs/config"
 	"github.com/eirka/eirka-libs/db"
 )
 
@@ -14,6 +15,8 @@ type SiteData struct {
 	Title string
 	Desc  string
 	Nsfw  bool
+	Style string
+	Logo  string
 }
 
 // gets the details from the request for the page handler variables
@@ -38,7 +41,7 @@ func Details() gin.HandlerFunc {
 				return
 			}
 
-			err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw, &sitedata.Api, &sitedata.Img)
+			err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw, &sitedata.Api, &sitedata.Img, &sitedata.Style, &sitedata.Logo)
 			if err != nil {
 				c.Error(err)
 				c.Abort()
@@ -66,12 +69,16 @@ func IndexController(c *gin.Context) {
 	mu.RUnlock()
 
 	c.HTML(http.StatusOK, "index", gin.H{
-		"ib":     site.Ib,
-		"apisrv": site.Api,
-		"imgsrv": site.Img,
-		"title":  site.Title,
-		"desc":   site.Desc,
-		"nsfw":   site.Nsfw,
+		"primjs":  config.Settings.Prim.Js,
+		"primcss": config.Settings.Prim.Css,
+		"ib":      site.Ib,
+		"apisrv":  site.Api,
+		"imgsrv":  site.Img,
+		"title":   site.Title,
+		"desc":    site.Desc,
+		"nsfw":    site.Nsfw,
+		"style":   site.Style,
+		"logo":    site.Logo,
 	})
 
 	return

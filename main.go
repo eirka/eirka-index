@@ -9,6 +9,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/eirka/eirka-libs/config"
 	"github.com/eirka/eirka-libs/db"
 
 	local "eirka-index/config"
@@ -38,6 +39,9 @@ func init() {
 	// Set up DB connection
 	dbase.NewDb()
 
+	// Get limits and stuff from database
+	config.GetDatabaseSettings()
+
 }
 
 func main() {
@@ -58,7 +62,7 @@ func main() {
 	r.SetHTMLTemplate(t)
 
 	// serve our assets
-	r.Static("/static", "/data/prim/static")
+	r.Static("/assets", local.Settings.Directories.AssetsDir)
 
 	// use the details middleware
 	r.Use(Details())

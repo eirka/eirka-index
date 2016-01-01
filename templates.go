@@ -22,9 +22,9 @@ const head = `[[define "head"]]<head>
     <meta name="description" content="[[ .desc ]]" />[[if .nsfw]]
     <meta name="rating" content="adult" />
     <meta name="rating" content="RTA-5042-1996-1400-1577-RTA" />[[end]]
-    <script src="[[ .primjs ]]"></script>
-    <link rel="stylesheet" href="[[ .primcss ]]" />
-    <link rel="stylesheet" href="[[ .style ]]" />
+    <script src="/assets/prim/[[ .primjs ]]"></script>
+    <link rel="stylesheet" href="/assets/prim/[[ .primcss ]]" />
+    <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <script>angular.module('prim').constant('config',{ib_id:'[[ .ib ]]',title:'[[ .title ]]',img_srv:'//[[ .imgsrv ]]',api_srv:'//[[ .apisrv ]]'});</script>
     <script src="//use.typekit.net/tgi8jsa.js"></script>
@@ -77,7 +77,7 @@ const header = `[[define "header"]]<div class="header_bar">
         </div>
         <div class="site_logo">
             <a href="/">
-                <img src="/static/[[ .title | ToLower ]]/logo.png" title="[[ .title ]]" />
+                <img src="/assets/logo/[[ .logo ]]" title="[[ .title ]]" />
             </a>
         </div>
     </div>

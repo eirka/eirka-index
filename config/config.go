@@ -25,6 +25,10 @@ type Config struct {
 		MaxIdle        int
 		MaxConnections int
 	}
+
+	Directories struct {
+		AssetsDir string
+	}
 }
 
 func init() {

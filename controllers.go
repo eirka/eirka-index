@@ -101,16 +101,17 @@ func IndexController(c *gin.Context) {
 	mu.RUnlock()
 
 	c.HTML(http.StatusOK, "index", gin.H{
-		"primjs":  config.Settings.Prim.Js,
-		"primcss": config.Settings.Prim.Css,
-		"ib":      site.Ib,
-		"apisrv":  site.Api,
-		"imgsrv":  site.Img,
-		"title":   site.Title,
-		"desc":    site.Desc,
-		"nsfw":    site.Nsfw,
-		"style":   site.Style,
-		"logo":    site.Logo,
+		"primjs":      config.Settings.Prim.Js,
+		"primcss":     config.Settings.Prim.Css,
+		"ib":          site.Ib,
+		"apisrv":      site.Api,
+		"imgsrv":      site.Img,
+		"title":       site.Title,
+		"desc":        site.Desc,
+		"nsfw":        site.Nsfw,
+		"style":       site.Style,
+		"logo":        site.Logo,
+		"imageboards": site.Imageboards,
 	})
 
 	return

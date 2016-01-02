@@ -11,7 +11,7 @@ import (
 	"github.com/eirka/eirka-libs/config"
 	"github.com/eirka/eirka-libs/db"
 
-	local "eirka-index/config"
+	local "github.com/eirka/eirka-index/config"
 )
 
 var (

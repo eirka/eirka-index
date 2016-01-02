@@ -26,7 +26,7 @@ const head = `[[define "head"]]<head>
     <link rel="stylesheet" href="/assets/prim/[[ .primcss ]]" />
     <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <script>angular.module('prim').constant('config',{ib_id:'[[ .ib ]]',title:'[[ .title ]]',img_srv:'//[[ .imgsrv ]]',api_srv:'//[[ .apisrv ]]'});</script>
+    <script>angular.module('prim').constant('config',{ib_id:[[ .ib ]],title:'[[ .title ]]',img_srv:'//[[ .imgsrv ]]',api_srv:'//[[ .apisrv ]]'});</script>
     [[template "headinclude" . ]]</head>[[end]]`
 
 // site header

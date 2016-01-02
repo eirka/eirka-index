@@ -36,8 +36,8 @@ const header = `[[define "header"]]<div class="header_bar">
             <ul click-off="navmenu.close" ng-click="navmenu.toggle()" ng-mouseenter="navmenu.open()" ng-mouseleave="navmenu.close()">
                 <li class="n1"><a href><i class="fa fa-fw fa-bars"></i></a>
                     <ul ng-if="navmenu.visible">
-                        [[template "navmenuinclude" . ]]
-                        [[template "navmenu" . ]]
+[[template "navmenuinclude" . ]]
+[[template "navmenu" . ]]
                     </ul>
                 </li>
             </ul>

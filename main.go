@@ -57,9 +57,6 @@ func main() {
 	// load template into gin
 	r.SetHTMLTemplate(t)
 
-	// serve our assets
-	r.Static("/assets", local.Settings.Directories.AssetsDir)
-
 	// use the details middleware
 	r.Use(Details())
 

@@ -35,7 +35,9 @@ const header = `[[define "header"]]<div class="header_bar">
         <div class="nav_menu" ng-controller="NavMenuCtrl as navmenu">
             <ul click-off="navmenu.close" ng-click="navmenu.toggle()" ng-mouseenter="navmenu.open()" ng-mouseleave="navmenu.close()">
                 <li class="n1"><a href><i class="fa fa-fw fa-bars"></i></a>
-                    <ul ng-if="navmenu.visible">[[template "navmenuinclude" . ]]
+                    <ul ng-if="navmenu.visible">
+                        [[template "navmenuinclude" . ]]
+                        [[template "navmenu" . ]]
                     </ul>
                 </li>
             </ul>
@@ -75,3 +77,9 @@ const header = `[[define "header"]]<div class="header_bar">
         </div>
     </div>
 </div>[[end]]`
+
+const navmenu = `[[define "navmenu"]]
+[[ range $ib := .imageboards ]]
+<li><a href="//[[ $ib.Address ]]">[[ $ib.Title ]]</a></li>
+[[end]]
+[[end]]`

@@ -68,7 +68,7 @@ func Details() gin.HandlerFunc {
 
 				err := rows.Scan(&ib.Title, &ib.Address)
 				if err != nil {
-					return err
+					return
 				}
 
 				sitedata.Imageboards = append(sitedata.Imageboards, ib)

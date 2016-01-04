@@ -15,14 +15,11 @@ import (
 )
 
 var (
-	sitemap map[string]*SiteData
-	mu      sync.RWMutex
+	sitemap = make(map[string]*SiteData)
+	mu      = new(sync.RWMutex)
 )
 
 func init() {
-
-	// map to hold site data so we dont hit the database every time
-	sitemap = make(map[string]*SiteData)
 
 	// Database connection settings
 	dbase := db.Database{

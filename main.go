@@ -7,7 +7,6 @@ import (
 	"github.com/gorilla/csrf"
 	"html/template"
 	"net/http"
-	"sync"
 
 	"github.com/eirka/eirka-libs/config"
 	"github.com/eirka/eirka-libs/db"

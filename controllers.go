@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/justinas/nosurf"
 	"net/http"
 	"sync"
 
@@ -118,6 +119,7 @@ func IndexController(c *gin.Context) {
 		"style":       site.Style,
 		"logo":        site.Logo,
 		"imageboards": site.Imageboards,
+		"csrf":        nosurf.Token(c.Request),
 	})
 
 	return

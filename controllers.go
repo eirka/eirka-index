@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/justinas/nosurf"
 	"net/http"
 	"sync"
 
@@ -30,23 +29,6 @@ type SiteData struct {
 type Imageboard struct {
 	Title   string
 	Address string
-}
-
-// generates a nosurf cookie for angularjs
-func CSRFCookie() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-		csrfcookie := &http.Cookie{
-			Name:  "session_csrf",
-			Value: nosurf.Token(c.Request),
-			Path:  "/",
-		}
-
-		http.SetCookie(c.Writer, csrfcookie)
-
-		c.Next()
-
-	}
 }
 
 // gets the details from the request for the page handler variables
@@ -136,7 +118,6 @@ func IndexController(c *gin.Context) {
 		"style":       site.Style,
 		"logo":        site.Logo,
 		"imageboards": site.Imageboards,
-		"csrf":        nosurf.Token(c.Request),
 	})
 
 	return

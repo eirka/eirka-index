@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/facebookgo/grace/gracehttp"
 	"github.com/gin-gonic/gin"
-	"github.com/justinas/nosurf"
 	"html/template"
 	"net/http"
 
@@ -71,16 +70,9 @@ func main() {
 
 	r.NoRoute(ErrorController)
 
-	csrf := nosurf.New(r)
-
-	csrf.SetBaseCookie(http.Cookie{
-		Path:     "/",
-		HttpOnly: true,
-	})
-
 	s := &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", local.Settings.Index.Address, local.Settings.Index.Port),
-		Handler: csrf,
+		Handler: r,
 	}
 
 	gracehttp.Serve(s)

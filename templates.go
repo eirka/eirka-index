@@ -34,8 +34,7 @@ const angular = `[[define "angular"]]<script>angular.module('prim').constant('co
         ib_id:[[ .ib ]],
         title:'[[ .title ]]',
         img_srv:'//[[ .imgsrv ]]',
-        api_srv:'//[[ .apisrv ]]',
-        csrf:'[[ .csrf ]]'
+        api_srv:'//[[ .apisrv ]]'
     });
 </script>[[end]]`
 

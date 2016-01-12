@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/justinas/nosurf"
 	"net/http"
 	"sync"
 
@@ -100,6 +101,8 @@ func Details() gin.HandlerFunc {
 // Handles index page generation
 func IndexController(c *gin.Context) {
 
+	csrf := nosurf.Token(c.Request)
+
 	host := c.Request.Host
 
 	mu.RLock()
@@ -118,6 +121,7 @@ func IndexController(c *gin.Context) {
 		"style":       site.Style,
 		"logo":        site.Logo,
 		"imageboards": site.Imageboards,
+		"csrf":        csrf,
 	})
 
 	return

@@ -42,6 +42,7 @@ func main() {
 	t = template.Must(t.Parse(head))
 	t = template.Must(t.Parse(header))
 	t = template.Must(t.Parse(navmenu))
+	t = template.Must(t.Parse(angular))
 	t = template.Must(t.ParseGlob(fmt.Sprintf("%s/includes/*.tmpl", local.Settings.Directories.AssetsDir)))
 
 	r := gin.Default()

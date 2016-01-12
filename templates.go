@@ -26,7 +26,7 @@ const head = `[[define "head"]]<head>
     <link rel="stylesheet" href="/assets/prim/[[ .primcss ]]" />
     <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    [[ template "angular" .]]
+    [[template "angular" . ]]
     [[template "headinclude" . ]]</head>[[end]]`
 
 // angular config

@@ -11,13 +11,8 @@ import (
 )
 
 var (
-	sitemap    = make(map[string]*SiteData)
-	mu         = new(sync.RWMutex)
-	csrfcookie = &http.Cookie{
-		Name:  "session_csrf",
-		Value: nosurf.Token(c.Request),
-		Path:  "/",
-	}
+	sitemap = make(map[string]*SiteData)
+	mu      = new(sync.RWMutex)
 )
 
 type SiteData struct {
@@ -40,6 +35,12 @@ type Imageboard struct {
 // generates a nosurf cookie for angularjs
 func CSRFCookie() gin.HandlerFunc {
 	return func(c *gin.Context) {
+
+		csrfcookie := &http.Cookie{
+			Name:  "session_csrf",
+			Value: nosurf.Token(c.Request),
+			Path:  "/",
+		}
 
 		http.SetCookie(c.Writer, csrfcookie)
 

@@ -8,6 +8,11 @@ import (
 	"github.com/eirka/eirka-libs/db"
 )
 
+var (
+	sitemap = make(map[string]*SiteData)
+	mu      = new(sync.RWMutex)
+)
+
 type SiteData struct {
 	Ib          uint
 	Api         string

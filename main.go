@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/facebookgo/grace/gracehttp"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/csrf"
 	"html/template"
 	"net/http"
 	"sync"
@@ -12,11 +13,6 @@ import (
 	"github.com/eirka/eirka-libs/db"
 
 	local "github.com/eirka/eirka-index/config"
-)
-
-var (
-	sitemap = make(map[string]*SiteData)
-	mu      = new(sync.RWMutex)
 )
 
 func init() {
@@ -73,9 +69,19 @@ func main() {
 
 	r.NoRoute(ErrorController)
 
+	CSRF := csrf.Protect(
+		[]byte("521ba8ae9ab286fbf31499d89bc68245bcef109cc4d5b695f345aa4341c15588"),
+		csrf.CookieName("XSRF-TOKEN"),
+		csrf.HttpOnly(false),
+		csrf.Secure(false),
+		csrf.Path("/"),
+		csrf.RequestHeader("X-XSRF-TOKEN"),
+		csrf.FieldName("csrf_token"),
+	)
+
 	s := &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", local.Settings.Index.Address, local.Settings.Index.Port),
-		Handler: r,
+		Handler: CSRF(r),
 	}
 
 	gracehttp.Serve(s)

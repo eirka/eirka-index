@@ -50,6 +50,8 @@ func main() {
 	// load template into gin
 	r.SetHTMLTemplate(t)
 
+	// use the csrf cookie middleware
+	r.Use(CSRFCookie())
 	// use the details middleware
 	r.Use(Details())
 

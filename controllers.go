@@ -101,8 +101,6 @@ func Details() gin.HandlerFunc {
 // Handles index page generation
 func IndexController(c *gin.Context) {
 
-	csrf := nosurf.Token(c.Request)
-
 	host := c.Request.Host
 
 	mu.RLock()
@@ -121,7 +119,7 @@ func IndexController(c *gin.Context) {
 		"style":       site.Style,
 		"logo":        site.Logo,
 		"imageboards": site.Imageboards,
-		"csrf":        csrf,
+		"csrf":        nosurf.Token(c.Request),
 	})
 
 	return

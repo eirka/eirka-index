@@ -31,11 +31,11 @@ const head = `[[define "head"]]<head>
 
 // angular config
 const angular = `[[define "angular"]]<script>angular.module('prim').constant('config',{
-    ib_id:[[ .ib ]],
-    title:'[[ .title ]]',
-    img_srv:'//[[ .imgsrv ]]',
-    api_srv:'//[[ .apisrv ]]',
-    csrf:'[[ .csrf ]]'
+        ib_id:[[ .ib ]],
+        title:'[[ .title ]]',
+        img_srv:'//[[ .imgsrv ]]',
+        api_srv:'//[[ .apisrv ]]',
+        csrf:'[[ .csrf ]]'
     });
 </script>[[end]]`
 

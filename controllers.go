@@ -100,6 +100,9 @@ func Details() gin.HandlerFunc {
 // Handles index page generation
 func IndexController(c *gin.Context) {
 
+	// Get parameters from validate middleware
+	csrf_token := c.MustGet("csrf_token").(string)
+
 	host := c.Request.Host
 
 	mu.RLock()
@@ -118,6 +121,7 @@ func IndexController(c *gin.Context) {
 		"style":       site.Style,
 		"logo":        site.Logo,
 		"imageboards": site.Imageboards,
+		"csrf":        csrf_token,
 	})
 
 	return

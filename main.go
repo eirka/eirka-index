@@ -11,6 +11,7 @@ import (
 	"github.com/eirka/eirka-libs/db"
 
 	local "github.com/eirka/eirka-index/config"
+	"github.com/eirka/eirka-index/csrf"
 )
 
 func init() {
@@ -51,6 +52,8 @@ func main() {
 
 	// use the details middleware
 	r.Use(Details())
+	// generates our csrf cookie
+	r.Use(csrf.Cookie())
 
 	r.GET("/", IndexController)
 	r.GET("/page/:id", IndexController)

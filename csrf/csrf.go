@@ -1,11 +1,8 @@
 package csrf
 
 import (
-	"errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"net/url"
-	"regexp"
 )
 
 const (
@@ -13,13 +10,10 @@ const (
 	HeaderName = "X-XSRF-TOKEN"
 	// the name of the form field
 	FormFieldName = "csrf_token"
-
 	// the name of CSRF cookie
 	CookieName = "csrf_token"
 	// the name of the session cookie for angularjs
 	SessionName = "XSRF-TOKEN"
-	// Max-Age in seconds for the default base cookie. 365 days.
-	MaxAge = 365 * 24 * 60 * 60
 )
 
 // generates two cookies: a long term csrf token for a user, and a masked session token to verify against
@@ -45,7 +39,7 @@ func Cookie() gin.HandlerFunc {
 			csrfCookie := &http.Cookie{
 				Name:     CookieName,
 				Value:    b64encode(csrfToken),
-				Expires:  MaxAge,
+				Expires:  time.Now().Add(356 * 24 * time.Hour),
 				Path:     "/",
 				HttpOnly: true,
 			}

@@ -67,6 +67,7 @@ func main() {
 	r.GET("/trending", IndexController)
 	r.GET("/favorites/:page", IndexController)
 	r.GET("/favorites", IndexController)
+	r.GET("/admin", IndexController)
 	r.GET("/error", IndexController)
 
 	r.NoRoute(ErrorController)

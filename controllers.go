@@ -7,6 +7,7 @@ import (
 
 	"github.com/eirka/eirka-libs/config"
 	"github.com/eirka/eirka-libs/db"
+	e "github.com/eirka/eirka-libs/errors"
 )
 
 var (
@@ -14,6 +15,7 @@ var (
 	mu      = new(sync.RWMutex)
 )
 
+// SiteData holds imageboard settings
 type SiteData struct {
 	Ib          uint
 	Api         string
@@ -31,7 +33,7 @@ type Imageboard struct {
 	Address string
 }
 
-// gets the details from the request for the page handler variables
+// Details gets the imageboard settings from the request for the page handler variables
 func Details() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
@@ -48,21 +50,24 @@ func Details() gin.HandlerFunc {
 			// Get Database handle
 			dbase, err := db.GetDb()
 			if err != nil {
-				c.Error(err)
+				c.JSON(e.ErrorMessage(e.ErrInternalError))
+				c.Error(err).SetMeta("Details.GetDb")
 				c.Abort()
 				return
 			}
 
 			err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw, &sitedata.Api, &sitedata.Img, &sitedata.Style, &sitedata.Logo)
 			if err != nil {
-				c.Error(err)
+				c.JSON(e.ErrorMessage(e.ErrInternalError))
+				c.Error(err).SetMeta("Details.QueryRow")
 				c.Abort()
 				return
 			}
 
 			rows, err := dbase.Query(`SELECT ib_title,ib_domain FROM imageboards WHERE ib_id != ?`, sitedata.Ib)
 			if err != nil {
-				c.Error(err)
+				c.JSON(e.ErrorMessage(e.ErrInternalError))
+				c.Error(err).SetMeta("Details.Query")
 				c.Abort()
 				return
 			}
@@ -81,7 +86,8 @@ func Details() gin.HandlerFunc {
 			}
 			err = rows.Err()
 			if err != nil {
-				c.Error(err)
+				c.JSON(e.ErrorMessage(e.ErrInternalError))
+				c.Error(err).SetMeta("Details.Query")
 				c.Abort()
 				return
 			}
@@ -95,12 +101,13 @@ func Details() gin.HandlerFunc {
 		c.Next()
 
 	}
+
 }
 
-// Handles index page generation
+// IndexController generates pages for angularjs frontend
 func IndexController(c *gin.Context) {
 
-	// Get parameters from validate middleware
+	// Get parameters from csrf middleware
 	csrf_token := c.MustGet("csrf_token").(string)
 
 	host := c.Request.Host
@@ -128,7 +135,7 @@ func IndexController(c *gin.Context) {
 
 }
 
-// Handles error messages for wrong routes
+// ErrorController handles error messages for wrong routes
 func ErrorController(c *gin.Context) {
 
 	c.String(http.StatusNotFound, "Not Found")

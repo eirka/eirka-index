@@ -59,6 +59,7 @@ func main() {
 	r.GET("/page/:id", IndexController)
 	r.GET("/thread/:id/:page", IndexController)
 	r.GET("/directory", IndexController)
+	r.GET("/directory/:page", IndexController)
 	r.GET("/image/:id", IndexController)
 	r.GET("/tags/:page", IndexController)
 	r.GET("/tags", IndexController)

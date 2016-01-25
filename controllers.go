@@ -135,10 +135,32 @@ func IndexController(c *gin.Context) {
 
 }
 
-// ErrorController handles error messages for wrong routes
+// ErrorController generates pages and a 404 response
 func ErrorController(c *gin.Context) {
 
-	c.String(http.StatusNotFound, "Not Found")
+	// Get parameters from csrf middleware
+	csrf_token := c.MustGet("csrf_token").(string)
+
+	host := c.Request.Host
+
+	mu.RLock()
+	site := sitemap[host]
+	mu.RUnlock()
+
+	c.HTML(http.StatusNotFound, "index", gin.H{
+		"primjs":      config.Settings.Prim.Js,
+		"primcss":     config.Settings.Prim.Css,
+		"ib":          site.Ib,
+		"apisrv":      site.Api,
+		"imgsrv":      site.Img,
+		"title":       site.Title,
+		"desc":        site.Desc,
+		"nsfw":        site.Nsfw,
+		"style":       site.Style,
+		"logo":        site.Logo,
+		"imageboards": site.Imageboards,
+		"csrf":        csrf_token,
+	})
 
 	return
 

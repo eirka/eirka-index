@@ -52,7 +52,7 @@ const header = `[[define "header"]]<div class="header_bar">
                 </li>
             </ul>
         </div>
-        <div class="nav_items">
+        <div class="nav_items" ng-controller="NavItemsCtrl as navitems">
             <ul>
                 <ng-include src="'pages/menus/nav.html'"></ng-include>
             </ul>

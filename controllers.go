@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"sync"
@@ -40,9 +41,11 @@ func Details() gin.HandlerFunc {
 		host := c.Request.Host
 
 		mu.RLock()
+		// check the sitemap to see if its cached
 		site := sitemap[host]
 		mu.RUnlock()
 
+		// if not query the database
 		if site == nil {
 
 			sitedata := &SiteData{}
@@ -56,14 +59,19 @@ func Details() gin.HandlerFunc {
 				return
 			}
 
+			// get the info about the imageboard
 			err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw, &sitedata.Api, &sitedata.Img, &sitedata.Style, &sitedata.Logo)
-			if err != nil {
+			if err == sql.ErrNoRows {
+				c.JSON(e.ErrorMessage(e.ErrNotFound))
+				c.Error(err).SetMeta("Details.QueryRow")
+				return
+			} else if err != nil {
 				c.JSON(e.ErrorMessage(e.ErrInternalError))
 				c.Error(err).SetMeta("Details.QueryRow")
-				c.Abort()
 				return
 			}
 
+			// collect the links to the other imageboards for nav menu
 			rows, err := dbase.Query(`SELECT ib_title,ib_domain FROM imageboards WHERE ib_id != ?`, sitedata.Ib)
 			if err != nil {
 				c.JSON(e.ErrorMessage(e.ErrInternalError))
@@ -84,8 +92,7 @@ func Details() gin.HandlerFunc {
 
 				sitedata.Imageboards = append(sitedata.Imageboards, ib)
 			}
-			err = rows.Err()
-			if err != nil {
+			if rows.Err() != nil {
 				c.JSON(e.ErrorMessage(e.ErrInternalError))
 				c.Error(err).SetMeta("Details.Query")
 				c.Abort()

@@ -125,9 +125,9 @@ func Details() gin.HandlerFunc {
 			sitemap[host] = sitedata
 			mu.Unlock()
 
-			c.Set("host", host)
-
 		}
+
+		c.Set("host", host)
 
 		c.Next()
 

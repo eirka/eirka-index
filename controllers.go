@@ -54,6 +54,8 @@ func Details() gin.HandlerFunc {
 			base = fmt.Sprintf("%s/", path.Base(host))
 		}
 
+		fmt.Println(host, base)
+
 		mu.RLock()
 		// check the sitemap to see if its cached
 		site := sitemap[host]

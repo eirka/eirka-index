@@ -41,7 +41,9 @@ type Imageboard struct {
 func Details() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		host := c.Request.Host
+		var host, base string
+
+		host = c.Request.Host
 
 		// figure out our path and host
 		if path.Dir(host) == "." {
@@ -49,6 +51,7 @@ func Details() gin.HandlerFunc {
 			host = path.Base(host)
 		} else {
 			host = path.Dir(host)
+			base = fmt.Sprintf("%s/", path.Base(host))
 		}
 
 		mu.RLock()
@@ -62,7 +65,7 @@ func Details() gin.HandlerFunc {
 			sitedata := &SiteData{}
 
 			// set the base for angularjs
-			sitedata.Base = fmt.Sprintf("%s/", path.Base(host))
+			sitedata.Base = base
 
 			// Get Database handle
 			dbase, err := db.GetDb()

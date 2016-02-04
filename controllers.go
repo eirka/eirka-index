@@ -41,7 +41,7 @@ func Details() gin.HandlerFunc {
 
 		host := c.Request.Host
 
-		fmt.Println(host)
+		fmt.Println(c.Request.URL)
 
 		mu.RLock()
 		// check the sitemap to see if its cached

@@ -52,7 +52,7 @@ func Details() gin.HandlerFunc {
 		} else {
 			// we're on a subdirectory
 			host = path.Dir(host)
-			base = fmt.Sprintf("%s/", path.Base(host))
+			base = fmt.Sprintf("b/%s/", path.Base(host))
 		}
 
 		fmt.Println(host, base)

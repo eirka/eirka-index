@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"path"
 	"sync"
 
 	"github.com/eirka/eirka-libs/config"
@@ -27,6 +28,7 @@ type SiteData struct {
 	Nsfw        bool
 	Style       string
 	Logo        string
+	Base        string
 	Imageboards []Imageboard
 }
 
@@ -39,9 +41,17 @@ type Imageboard struct {
 func Details() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		host := c.Request.Host
+		var host, base string
 
-		fmt.Println(host)
+		host = c.Request.Host
+
+		// figure out our path and host
+		if path.Dir(host) == "." {
+			// we're on the base in this case
+			host = host.Base(host)
+		} else {
+			host = path.Dir(host)
+		}
 
 		mu.RLock()
 		// check the sitemap to see if its cached
@@ -52,6 +62,9 @@ func Details() gin.HandlerFunc {
 		if site == nil {
 
 			sitedata := &SiteData{}
+
+			// set the base for angularjs
+			sitedata.Base = fmt.Sprintf("%s/", path.Base(host))
 
 			// Get Database handle
 			dbase, err := db.GetDb()
@@ -161,6 +174,7 @@ func ErrorController(c *gin.Context) {
 		"primjs":      config.Settings.Prim.Js,
 		"primcss":     config.Settings.Prim.Css,
 		"ib":          site.Ib,
+		"base":        site.Base,
 		"apisrv":      site.Api,
 		"imgsrv":      site.Img,
 		"title":       site.Title,

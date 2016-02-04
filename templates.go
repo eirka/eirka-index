@@ -15,7 +15,7 @@ const index = `[[define "index"]]<!doctype html>
 
 // head items
 const head = `[[define "head"]]<head>
-    <base href="/">
+    <base href="/[[ .base ]]">
     <title data-ng-bind="page.title">[[ .title ]]</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

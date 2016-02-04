@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"sync"
@@ -40,7 +41,7 @@ func Details() gin.HandlerFunc {
 
 		host := c.Request.Host
 
-		c.Error(host)
+		fmt.Println(host)
 
 		mu.RLock()
 		// check the sitemap to see if its cached

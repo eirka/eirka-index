@@ -48,7 +48,7 @@ func Details() gin.HandlerFunc {
 		// figure out our path and host
 		if path.Dir(host) == "." {
 			// we're on the base in this case
-			host = host.Base(host)
+			host = path.Base(host)
 		} else {
 			host = path.Dir(host)
 		}

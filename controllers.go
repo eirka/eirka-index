@@ -114,7 +114,7 @@ func Details() gin.HandlerFunc {
 
 				// figure out our path and host
 				if path.Dir(ib.Address) != path.Base(ib.Address) {
-					ib.Address = fmt.Sprintf("b/%s/", path.Base(ib.Address))
+					ib.Address = fmt.Sprintf("%s/b/%s", path.Dir(ib.Address), path.Base(ib.Address))
 				}
 
 				sitedata.Imageboards = append(sitedata.Imageboards, ib)

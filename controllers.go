@@ -113,7 +113,7 @@ func Details() gin.HandlerFunc {
 				}
 
 				// figure out our path and host
-				if path.Dir(ib.Address) != path.Base(ib.Address) {
+				if path.Dir(ib.Address) != "." {
 					ib.Address = fmt.Sprintf("%s/b/%s", path.Dir(ib.Address), path.Base(ib.Address))
 				}
 

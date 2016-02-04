@@ -144,6 +144,7 @@ func IndexController(c *gin.Context) {
 		"primjs":      config.Settings.Prim.Js,
 		"primcss":     config.Settings.Prim.Css,
 		"ib":          site.Ib,
+		"base":        site.Base,
 		"apisrv":      site.Api,
 		"imgsrv":      site.Img,
 		"title":       site.Title,

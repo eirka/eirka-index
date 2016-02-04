@@ -49,6 +49,7 @@ func Details() gin.HandlerFunc {
 		if path.Dir(host) == "." {
 			// we're on the base in this case
 			host = path.Base(host)
+			base = ""
 		} else {
 			host = path.Dir(host)
 			base = fmt.Sprintf("%s/", path.Base(host))
@@ -117,6 +118,8 @@ func Details() gin.HandlerFunc {
 				c.Abort()
 				return
 			}
+
+			fmt.Println(sitedata)
 
 			mu.Lock()
 			sitemap[host] = sitedata

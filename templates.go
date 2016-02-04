@@ -81,7 +81,7 @@ const header = `[[define "header"]]<div class="header_bar">
             </div>
         </div>
         <div class="site_logo">
-            <a href="/">
+            <a href="/[[ .base ]]">
                 <img src="/assets/logo/[[ .logo ]]" title="[[ .title ]]" />
             </a>
         </div>

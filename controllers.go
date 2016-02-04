@@ -40,6 +40,8 @@ func Details() gin.HandlerFunc {
 
 		host := c.Request.Host
 
+		c.Error(host)
+
 		mu.RLock()
 		// check the sitemap to see if its cached
 		site := sitemap[host]

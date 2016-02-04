@@ -84,10 +84,12 @@ func Details() gin.HandlerFunc {
 			if err == sql.ErrNoRows {
 				c.JSON(e.ErrorMessage(e.ErrNotFound))
 				c.Error(err).SetMeta("Details.QueryRow")
+				c.Abort()
 				return
 			} else if err != nil {
 				c.JSON(e.ErrorMessage(e.ErrInternalError))
 				c.Error(err).SetMeta("Details.QueryRow")
+				c.Abort()
 				return
 			}
 

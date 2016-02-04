@@ -46,11 +46,11 @@ func Details() gin.HandlerFunc {
 		host = c.Request.Host
 
 		// figure out our path and host
-		if path.Dir(host) == "." {
-			// we're on the base in this case
+		if path.Dir(host) == path.Base(host) {
+			// we're on the base domain in this case
 			host = path.Base(host)
-			base = ""
 		} else {
+			// we're on a subdirectory
 			host = path.Dir(host)
 			base = fmt.Sprintf("%s/", path.Base(host))
 		}
@@ -125,6 +125,8 @@ func Details() gin.HandlerFunc {
 			sitemap[host] = sitedata
 			mu.Unlock()
 
+			c.Set("host", host)
+
 		}
 
 		c.Next()
@@ -139,10 +141,8 @@ func IndexController(c *gin.Context) {
 	// Get parameters from csrf middleware
 	csrf_token := c.MustGet("csrf_token").(string)
 
-	host := c.Request.Host
-
 	mu.RLock()
-	site := sitemap[host]
+	site := sitemap[c.MustGet("host").(string)]
 	mu.RUnlock()
 
 	c.HTML(http.StatusOK, "index", gin.H{
@@ -171,10 +171,8 @@ func ErrorController(c *gin.Context) {
 	// Get parameters from csrf middleware
 	csrf_token := c.MustGet("csrf_token").(string)
 
-	host := c.Request.Host
-
 	mu.RLock()
-	site := sitemap[host]
+	site := sitemap[c.MustGet("host").(string)]
 	mu.RUnlock()
 
 	c.HTML(http.StatusNotFound, "index", gin.H{

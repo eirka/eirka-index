@@ -41,9 +41,7 @@ type Imageboard struct {
 func Details() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		var host, base string
-
-		host = c.Request.Host
+		host := c.Request.Host
 
 		// figure out our path and host
 		if path.Dir(host) == "." {

@@ -119,9 +119,6 @@ func Details() gin.HandlerFunc {
 // IndexController generates pages for angularjs frontend
 func IndexController(c *gin.Context) {
 
-	// Get parameters from csrf middleware
-	csrf_token := c.MustGet("csrf_token").(string)
-
 	mu.RLock()
 	site := sitemap[c.MustGet("host").(string)]
 	mu.RUnlock()
@@ -139,7 +136,7 @@ func IndexController(c *gin.Context) {
 		"style":       site.Style,
 		"logo":        site.Logo,
 		"imageboards": site.Imageboards,
-		"csrf":        csrf_token,
+		"csrf":        c.MustGet("csrf_token").(string),
 	})
 
 	return
@@ -148,9 +145,6 @@ func IndexController(c *gin.Context) {
 
 // ErrorController generates pages and a 404 response
 func ErrorController(c *gin.Context) {
-
-	// Get parameters from csrf middleware
-	csrf_token := c.MustGet("csrf_token").(string)
 
 	mu.RLock()
 	site := sitemap[c.MustGet("host").(string)]
@@ -169,7 +163,7 @@ func ErrorController(c *gin.Context) {
 		"style":       site.Style,
 		"logo":        site.Logo,
 		"imageboards": site.Imageboards,
-		"csrf":        csrf_token,
+		"csrf":        c.MustGet("csrf_token").(string),
 	})
 
 	return

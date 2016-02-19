@@ -1,7 +1,8 @@
 package main
 
 // index template
-const index = `[[define "index"]]<!doctype html>
+const index = `[[define "index" -]]
+<!doctype html>
 <html ng-app="prim" ng-strict-di lang="en">
 [[template "head" . ]]
 <body>
@@ -11,36 +12,44 @@ const index = `[[define "index"]]<!doctype html>
     </div>
     <div ng-view></div>
 </body>
-</html>[[end]]`
+</html>
+[[- end]]`
 
 // head items
-const head = `[[define "head"]]<head>
+const head = `[[define "head"-]]
+    <head>
     <base href="/[[ .base ]]">
     <title data-ng-bind="page.title">[[ .title ]]</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="[[ .desc ]]" />[[if .nsfw]]
+    <meta name="description" content="[[ .desc ]]" />
+    [[if .nsfw -]]
     <meta name="rating" content="adult" />
-    <meta name="rating" content="RTA-5042-1996-1400-1577-RTA" />[[end]]
+    <meta name="rating" content="RTA-5042-1996-1400-1577-RTA" />
+    [[- end]]
     <script src="/assets/prim/[[ .primjs ]]"></script>
     <link rel="stylesheet" href="/assets/prim/[[ .primcss ]]" />
     <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     [[template "angular" . ]]
-    [[template "headinclude" . ]]</head>[[end]]`
+    [[template "headinclude" . ]]
+    </head>
+    [[- end]]`
 
 // angular config
-const angular = `[[define "angular"]]<script>angular.module('prim').constant('config',{
+const angular = `[[define "angular" -]]
+<script>angular.module('prim').constant('config',{
         ib_id:[[ .ib ]],
         title:'[[ .title ]]',
         img_srv:'//[[ .imgsrv ]]',
         api_srv:'//[[ .apisrv ]]',
         csrf_token:'[[ .csrf ]]'
     });
-</script>[[end]]`
+</script>[[- end]]`
 
 // site header
-const header = `[[define "header"]]<div class="header_bar">
+const header = `[[define "header" -]]
+<div class="header_bar">
     <div class="left">
         <div class="nav_menu" ng-controller="NavMenuCtrl as navmenu">
             <ul click-off="navmenu.close" ng-click="navmenu.toggle()" ng-mouseenter="navmenu.open()" ng-mouseleave="navmenu.close()">
@@ -86,7 +95,11 @@ const header = `[[define "header"]]<div class="header_bar">
             </a>
         </div>
     </div>
-</div>[[end]]`
+</div>
+[[- end]]`
 
-const navmenu = `[[define "navmenu"]][[ range $ib := .imageboards ]]<li><a target="_self" href="//[[ $ib.Address ]]/">[[ $ib.Title ]]</a></li>
-[[end]][[end]]`
+const navmenu = `[[define "navmenu" -]]
+[[ range $ib := .imageboards -]]
+<li><a target="_self" href="//[[ $ib.Address ]]/">[[ $ib.Title ]]</a></li>
+[[- end]]
+[[- end]]`

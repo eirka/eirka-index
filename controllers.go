@@ -41,19 +41,7 @@ type Imageboard struct {
 func Details() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		var host, base string
-
-		host = c.Request.Host
-
-		// figure out our path and host
-		if path.Dir(host) == path.Base(host) {
-			// we're on the base domain in this case
-			host = path.Base(host)
-		} else {
-			// we're on a subdirectory
-			host = path.Dir(host)
-			base = fmt.Sprintf("b/%s/", path.Base(host))
-		}
+		host := c.Request.Host
 
 		mu.RLock()
 		// check the sitemap to see if its cached
@@ -64,9 +52,6 @@ func Details() gin.HandlerFunc {
 		if site == nil {
 
 			sitedata := &SiteData{}
-
-			// set the base for angularjs
-			sitedata.Base = base
 
 			// Get Database handle
 			dbase, err := db.GetDb()
@@ -108,11 +93,6 @@ func Details() gin.HandlerFunc {
 				err := rows.Scan(&ib.Title, &ib.Address)
 				if err != nil {
 					return
-				}
-
-				// figure out our path and host
-				if path.Dir(ib.Address) != "." {
-					ib.Address = fmt.Sprintf("%s/b/%s", path.Dir(ib.Address), path.Base(ib.Address))
 				}
 
 				sitedata.Imageboards = append(sitedata.Imageboards, ib)

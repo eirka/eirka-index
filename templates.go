@@ -63,7 +63,7 @@ const header = `[[define "header"]]<div class="header_bar">
     <div class="right">
         <div class="user_menu">
             <div ng-if="!authState.isAuthenticated" class="login">
-                <a href="account" class="button-login">Sign In</a>
+                <a href="account" class="button-login">Sign in</a>
             </div>
             <div ng-if="authState.isAuthenticated" ng-controller="UserMenuCtrl as usermenu">
                 <ul click-off="usermenu.close" ng-click="usermenu.toggle()" ng-mouseenter="usermenu.open()" ng-mouseleave="usermenu.close()">

@@ -1,8 +1,7 @@
 package main
 
 // index template
-const index = `[[define "index"]]
-<!doctype html>
+const index = `[[define "index"]]<!doctype html>
 <html ng-app="prim" ng-strict-di lang="en">
 [[template "head" . ]]
 <body>
@@ -12,12 +11,10 @@ const index = `[[define "index"]]
     </div>
     <div ng-view></div>
 </body>
-</html>
-[[end]]`
+</html>[[end]]`
 
 // head items
-const head = `[[define "head"]]
-    <head>
+const head = `[[define "head"]]<head>
     <base href="/[[ .base ]]">
     <title data-ng-bind="page.title">[[ .title ]]</title>
     <meta charset="utf-8" />
@@ -32,12 +29,10 @@ const head = `[[define "head"]]
     <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     [[template "angular" . ]]
-    [[template "headinclude" . ]]</head>
-    [[end]]`
+    [[template "headinclude" . ]]</head>[[end]]`
 
 // angular config
-const angular = `[[define "angular"]]
-<script>angular.module('prim').constant('config',{
+const angular = `[[define "angular"]]<script>angular.module('prim').constant('config',{
         ib_id:[[ .ib ]],
         title:'[[ .title ]]',
         img_srv:'//[[ .imgsrv ]]',
@@ -47,8 +42,7 @@ const angular = `[[define "angular"]]
 </script>[[end]]`
 
 // site header
-const header = `[[define "header"]]
-<div class="header_bar">
+const header = `[[define "header"]]<div class="header_bar">
     <div class="left">
         <div class="nav_menu" ng-controller="NavMenuCtrl as navmenu">
             <ul click-off="navmenu.close" ng-click="navmenu.toggle()" ng-mouseenter="navmenu.open()" ng-mouseleave="navmenu.close()">
@@ -97,7 +91,5 @@ const header = `[[define "header"]]
 </div>[[end]]`
 
 const navmenu = `[[define "navmenu"]]
-[[ range $ib := .imageboards -]]
-<li><a target="_self" href="//[[ $ib.Address ]]/">[[ $ib.Title ]]</a></li>
-[[- end]]
+[[ range $ib := .imageboards -]]<li><a target="_self" href="//[[ $ib.Address ]]/">[[ $ib.Title ]]</a></li>[[- end]]
 [[end]]`

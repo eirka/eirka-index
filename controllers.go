@@ -2,10 +2,8 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"path"
 	"sync"
 
 	"github.com/eirka/eirka-libs/config"

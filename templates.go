@@ -1,7 +1,7 @@
 package main
 
 // index template
-const index = `[[define "index" -]]
+const index = `[[define "index"]]
 <!doctype html>
 <html ng-app="prim" ng-strict-di lang="en">
 [[template "head" . ]]
@@ -13,10 +13,10 @@ const index = `[[define "index" -]]
     <div ng-view></div>
 </body>
 </html>
-[[- end]]`
+[[end]]`
 
 // head items
-const head = `[[define "head"-]]
+const head = `[[define "head"]]
     <head>
     <base href="/[[ .base ]]">
     <title data-ng-bind="page.title">[[ .title ]]</title>
@@ -32,12 +32,11 @@ const head = `[[define "head"-]]
     <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     [[template "angular" . ]]
-    [[template "headinclude" . ]]
-    </head>
-    [[- end]]`
+    [[template "headinclude" . ]]</head>
+    [[end]]`
 
 // angular config
-const angular = `[[define "angular" -]]
+const angular = `[[define "angular"]]
 <script>angular.module('prim').constant('config',{
         ib_id:[[ .ib ]],
         title:'[[ .title ]]',
@@ -45,10 +44,10 @@ const angular = `[[define "angular" -]]
         api_srv:'//[[ .apisrv ]]',
         csrf_token:'[[ .csrf ]]'
     });
-</script>[[- end]]`
+</script>[[end]]`
 
 // site header
-const header = `[[define "header" -]]
+const header = `[[define "header"]]
 <div class="header_bar">
     <div class="left">
         <div class="nav_menu" ng-controller="NavMenuCtrl as navmenu">
@@ -95,11 +94,10 @@ const header = `[[define "header" -]]
             </a>
         </div>
     </div>
-</div>
-[[- end]]`
+</div>[[end]]`
 
-const navmenu = `[[define "navmenu" -]]
+const navmenu = `[[define "navmenu"]]
 [[ range $ib := .imageboards -]]
 <li><a target="_self" href="//[[ $ib.Address ]]/">[[ $ib.Title ]]</a></li>
 [[- end]]
-[[- end]]`
+[[end]]`

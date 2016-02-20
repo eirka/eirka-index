@@ -26,8 +26,7 @@ const head = `[[define "head"]]<head>
 <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <script src="/assets/prim/[[ .primjs ]]"></script>
-[[template "angular" . ]]
-[[template "headinclude" . ]]
+[[template "angular" . ]][[template "headinclude" . ]]
 </head>[[end]]`
 
 // angular config
@@ -47,8 +46,7 @@ const header = `[[define "header"]]<div class="header_bar">
 <ul click-off="navmenu.close" ng-click="navmenu.toggle()" ng-mouseenter="navmenu.open()" ng-mouseleave="navmenu.close()">
 <li class="n1"><a href><i class="fa fa-fw fa-bars"></i></a>
 <ul ng-if="navmenu.visible">
-[[template "navmenuinclude" . ]]
-[[template "navmenu" . ]]
+[[template "navmenuinclude" . ]][[template "navmenu" . ]]
 </ul>
 </li>
 </ul>

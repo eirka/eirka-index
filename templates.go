@@ -87,4 +87,6 @@ const header = `[[define "header"]]<div class="header_bar">
 </div>
 </div>[[end]]`
 
-const navmenu = `[[define "navmenu"]][[ range $ib := .imageboards -]]<li><a target="_self" href="//[[ $ib.Address ]]/">[[ $ib.Title ]]</a></li>[[- end]][[end]]`
+const navmenu = `[[define "navmenu"]]
+[[ range $ib := .imageboards -]]<li><a target="_self" href="//[[ $ib.Address ]]/">[[ $ib.Title ]]</a></li>[[- end]]
+[[end]]`

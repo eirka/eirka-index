@@ -19,10 +19,10 @@ const head = `[[define "head"]]<head>
 <title ng-bind="page.title">[[ .title ]]</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="[[ .desc ]]" />[[if .nsfw -]]
+<meta name="description" content="[[ .desc ]]" />[[if .nsfw]]
 <meta name="rating" content="adult" />
 <meta name="rating" content="RTA-5042-1996-1400-1577-RTA" />
-[[- end]]
+[[end]]
 <link rel="stylesheet" href="/assets/prim/[[ .primcss ]]" />
 <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">

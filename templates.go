@@ -31,7 +31,8 @@ const head = `[[define "head"]]<head>
 </head>[[end]]`
 
 // angular config
-const angular = `[[define "angular"]]<script>angular.module('prim').constant('config',{
+const angular = `[[define "angular"]]<script>
+angular.module('prim').constant('config',{
 ib_id:[[ .ib ]],
 title:'[[ .title ]]',
 img_srv:'//[[ .imgsrv ]]',
@@ -88,5 +89,5 @@ const header = `[[define "header"]]<div class="header_bar">
 </div>
 </div>[[end]]`
 
-const navmenu = `[[define "navmenu"]][[ range $ib := .imageboards]]<li><a target="_self" href="//[[ $ib.Address ]]/">[[ $ib.Title ]]</a></li>
-[[end]][[end]]`
+const navmenu = `[[define "navmenu"]][[ range $ib := .imageboards -]]<li><a target="_self" href="//[[ $ib.Address ]]/">[[ $ib.Title ]]</a></li>
+[[- end]][[end]]`

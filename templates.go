@@ -24,10 +24,10 @@ const head = `[[define "head"]]<head>
     <meta name="rating" content="adult" />
     <meta name="rating" content="RTA-5042-1996-1400-1577-RTA" />
     [[- end]]
-    <script src="/assets/prim/[[ .primjs ]]"></script>
     <link rel="stylesheet" href="/assets/prim/[[ .primcss ]]" />
     <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="/assets/prim/[[ .primjs ]]"></script>
     [[template "angular" . ]]
     [[template "headinclude" . ]]</head>[[end]]`
 

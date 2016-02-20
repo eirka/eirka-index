@@ -19,9 +19,10 @@ const head = `[[define "head"]]<head>
 <title data-ng-bind="page.title">[[ .title ]]</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="[[ .desc ]]" />
-[[if .nsfw -]]<meta name="rating" content="adult" />
-<meta name="rating" content="RTA-5042-1996-1400-1577-RTA" />[[- end]]
+<meta name="description" content="[[ .desc ]]" />[[if .nsfw -]]
+<meta name="rating" content="adult" />
+<meta name="rating" content="RTA-5042-1996-1400-1577-RTA" />
+[[- end]]
 <link rel="stylesheet" href="/assets/prim/[[ .primcss ]]" />
 <link rel="stylesheet" href="/assets/styles/[[ .style ]]" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -87,6 +88,6 @@ const header = `[[define "header"]]<div class="header_bar">
 </div>
 </div>[[end]]`
 
-const navmenu = `[[define "navmenu"]][[ range $ib := .imageboards -]]
+const navmenu = `[[define "navmenu"]][[ range $ib := .imageboards]]
 <li><a target="_self" href="//[[ $ib.Address ]]/">[[ $ib.Title ]]</a></li>
-[[- end]][[end]]`
+[[end]][[end]]`

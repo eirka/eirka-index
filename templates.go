@@ -82,9 +82,7 @@ const header = `[[define "header"]]<div class="header_bar">
 </div>
 </div>
 <div class="site_logo">
-<a href="/[[ .base ]]">
-<img src="/assets/logo/[[ .logo ]]" title="[[ .title ]]" />
-</a>
+<a href="/[[ .base ]]"><img src="/assets/logo/[[ .logo ]]" /></a>
 </div>
 </div>
 </div>[[end]]`

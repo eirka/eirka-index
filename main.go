@@ -55,6 +55,7 @@ func main() {
 	// generates our csrf cookie
 	r.Use(csrf.Cookie())
 
+	// these routes are handled by angularjs
 	r.GET("/", IndexController)
 	r.GET("/page/:id", IndexController)
 	r.GET("/thread/:id/:page", IndexController)
@@ -71,6 +72,7 @@ func main() {
 	r.GET("/admin", IndexController)
 	r.GET("/error", ErrorController)
 
+	// if nothing matches
 	r.NoRoute(ErrorController)
 
 	s := &http.Server{

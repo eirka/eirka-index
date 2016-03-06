@@ -2,7 +2,7 @@ package main
 
 // index template
 const index = `[[define "index"]]<!doctype html>
-<html ng-app="prim" ng-strict-di ng-csp lang="en">
+<html ng-app="prim" ng-strict-di lang="en">
 [[template "head" . ]]
 <body>
 <ng-include src="'pages/global.html'"></ng-include>

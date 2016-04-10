@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/facebookgo/grace/gracehttp"
-	"github.com/gin-gonic/gin"
 	"html/template"
 	"net/http"
+
+	"github.com/facebookgo/grace/gracehttp"
+	"github.com/gin-gonic/gin"
 
 	"github.com/eirka/eirka-libs/config"
 	"github.com/eirka/eirka-libs/csrf"

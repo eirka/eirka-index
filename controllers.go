@@ -2,9 +2,10 @@ package main
 
 import (
 	"database/sql"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"sync"
+
+	"github.com/gin-gonic/gin"
 
 	"github.com/eirka/eirka-libs/config"
 	"github.com/eirka/eirka-libs/db"
@@ -19,7 +20,7 @@ var (
 // SiteData holds imageboard settings
 type SiteData struct {
 	Ib          uint
-	Api         string
+	API         string
 	Img         string
 	Title       string
 	Desc        string
@@ -30,6 +31,7 @@ type SiteData struct {
 	Imageboards []Imageboard
 }
 
+// Imageboard holds an imageboards metadata
 type Imageboard struct {
 	Title   string
 	Address string
@@ -61,7 +63,7 @@ func Details() gin.HandlerFunc {
 			}
 
 			// get the info about the imageboard
-			err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw, &sitedata.Api, &sitedata.Img, &sitedata.Style, &sitedata.Logo)
+			err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw, &sitedata.API, &sitedata.Img, &sitedata.Style, &sitedata.Logo)
 			if err == sql.ErrNoRows {
 				c.JSON(e.ErrorMessage(e.ErrNotFound))
 				c.Error(err).SetMeta("Details.QueryRow")
@@ -88,7 +90,7 @@ func Details() gin.HandlerFunc {
 
 				ib := Imageboard{}
 
-				err := rows.Scan(&ib.Title, &ib.Address)
+				err = rows.Scan(&ib.Title, &ib.Address)
 				if err != nil {
 					return
 				}
@@ -124,11 +126,11 @@ func IndexController(c *gin.Context) {
 	mu.RUnlock()
 
 	c.HTML(http.StatusOK, "index", gin.H{
-		"primjs":      config.Settings.Prim.Js,
-		"primcss":     config.Settings.Prim.Css,
+		"primjs":      config.Settings.Prim.JS,
+		"primcss":     config.Settings.Prim.CSS,
 		"ib":          site.Ib,
 		"base":        site.Base,
-		"apisrv":      site.Api,
+		"apisrv":      site.API,
 		"imgsrv":      site.Img,
 		"title":       site.Title,
 		"desc":        site.Desc,
@@ -151,11 +153,11 @@ func ErrorController(c *gin.Context) {
 	mu.RUnlock()
 
 	c.HTML(http.StatusNotFound, "index", gin.H{
-		"primjs":      config.Settings.Prim.Js,
-		"primcss":     config.Settings.Prim.Css,
+		"primjs":      config.Settings.Prim.JS,
+		"primcss":     config.Settings.Prim.CSS,
 		"ib":          site.Ib,
 		"base":        site.Base,
-		"apisrv":      site.Api,
+		"apisrv":      site.API,
 		"imgsrv":      site.Img,
 		"title":       site.Title,
 		"desc":        site.Desc,

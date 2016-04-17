@@ -9,7 +9,7 @@ const index = `[[define "index"]]<!doctype html>
 <div class="header">
 [[template "header" . ]]
 </div>
-<div ng-view autoscroll></div>
+<div ng-view></div>
 </body>
 </html>[[end]]`
 

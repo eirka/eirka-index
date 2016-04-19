@@ -21,11 +21,11 @@ func init() {
 	dbase := db.Database{
 		User:           local.Settings.Database.User,
 		Password:       local.Settings.Database.Password,
-		Proto:          local.Settings.Database.Proto,
+		Proto:          local.Settings.Database.Protocol,
 		Host:           local.Settings.Database.Host,
 		Database:       local.Settings.Database.Database,
-		MaxIdle:        local.Settings.Database.MaxIdle,
-		MaxConnections: local.Settings.Database.MaxConnections,
+		MaxIdle:        local.Settings.Index.DatabaseMaxIdle,
+		MaxConnections: local.Settings.Index.DatabaseMaxConnections,
 	}
 
 	// Set up DB connection
@@ -77,7 +77,7 @@ func main() {
 	r.NoRoute(ErrorController)
 
 	s := &http.Server{
-		Addr:    fmt.Sprintf("%s:%d", local.Settings.Index.Address, local.Settings.Index.Port),
+		Addr:    fmt.Sprintf("%s:%d", local.Settings.Index.Host, local.Settings.Index.Port),
 		Handler: r,
 	}
 

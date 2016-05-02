@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/facebookgo/grace/gracehttp"
+	"github.com/facebookgo/pidfile"
 	"github.com/gin-gonic/gin"
 
 	"github.com/eirka/eirka-libs/config"
@@ -37,6 +38,14 @@ func init() {
 }
 
 func main() {
+
+	// create pid file
+	pidfile.SetPidfilePath("/run/eirka/eirka-index.pid")
+
+	err := pidfile.Write()
+	if err != nil {
+		panic("Could not write pid file")
+	}
 
 	// parse our template
 	t := template.Must(template.New("templates").Delims("[[", "]]").Parse(index))

@@ -28,6 +28,7 @@ type SiteData struct {
 	Style       string
 	Logo        string
 	Base        string
+	Discord     string
 	Imageboards []Imageboard
 }
 
@@ -63,7 +64,7 @@ func Details() gin.HandlerFunc {
 			}
 
 			// get the info about the imageboard
-			err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw, &sitedata.API, &sitedata.Img, &sitedata.Style, &sitedata.Logo)
+			err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo,ib_discord FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw, &sitedata.API, &sitedata.Img, &sitedata.Style, &sitedata.Logo, &sitedata.Discord)
 			if err == sql.ErrNoRows {
 				c.JSON(e.ErrorMessage(e.ErrNotFound))
 				c.Error(err).SetMeta("Details.QueryRow")
@@ -137,6 +138,7 @@ func IndexController(c *gin.Context) {
 		"nsfw":        site.Nsfw,
 		"style":       site.Style,
 		"logo":        site.Logo,
+		"discord":     site.Discord,
 		"imageboards": site.Imageboards,
 		"csrf":        c.MustGet("csrf_token").(string),
 	})
@@ -164,6 +166,7 @@ func ErrorController(c *gin.Context) {
 		"nsfw":        site.Nsfw,
 		"style":       site.Style,
 		"logo":        site.Logo,
+		"discord":     site.Discord,
 		"imageboards": site.Imageboards,
 		"csrf":        c.MustGet("csrf_token").(string),
 	})

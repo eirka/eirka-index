@@ -37,7 +37,9 @@ ib_id:[[ .ib ]],
 title:'[[ .title ]]',
 img_srv:'//[[ .imgsrv ]]',
 api_srv:'//[[ .apisrv ]]',
-csrf_token:'[[ .csrf ]]'
+csrf_token:'[[ .csrf ]]'[[ if .discord ]],
+discord_widget:'[[ .discord ]]'
+[[end]]
 });
 </script>[[end]]`
 

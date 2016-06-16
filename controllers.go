@@ -80,7 +80,7 @@ func Details() gin.HandlerFunc {
 			}
 
 			// add a cache breaker because their thing is dumb
-			site.Discord = strings.Join([]string{site.Discord, strconv.Itoa(int(site.Ib))}, "?")
+			sitedata.Discord = strings.Join([]string{sitedata.Discord, strconv.Itoa(int(site.Ib))}, "?")
 
 			// collect the links to the other imageboards for nav menu
 			rows, err := dbase.Query(`SELECT ib_title,ib_domain FROM imageboards WHERE ib_id != ?`, sitedata.Ib)

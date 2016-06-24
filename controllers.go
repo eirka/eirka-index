@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -81,7 +82,8 @@ func Details() gin.HandlerFunc {
 
 			// add a cache breaker because their thing is dumb
 			if sitedata.Discord != "" {
-				sitedata.Discord = strings.Join([]string{sitedata.Discord, strconv.Itoa(int(sitedata.Ib))}, "?")
+				nonce := strconv.Itoa(int(sitedata.Ib)) + strconv.Itoa(int(time.Now().Unix()))
+				sitedata.Discord = strings.Join([]string{sitedata.Discord, nonce}, "?")
 			}
 
 			// collect the links to the other imageboards for nav menu

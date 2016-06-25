@@ -80,12 +80,6 @@ func Details() gin.HandlerFunc {
 				return
 			}
 
-			// add a cache breaker because their thing is dumb
-			if sitedata.Discord != "" {
-				nonce := strconv.Itoa(int(sitedata.Ib)) + strconv.Itoa(int(time.Now().Unix()))
-				sitedata.Discord = strings.Join([]string{sitedata.Discord, nonce}, "?")
-			}
-
 			// collect the links to the other imageboards for nav menu
 			rows, err := dbase.Query(`SELECT ib_title,ib_domain FROM imageboards WHERE ib_id != ?`, sitedata.Ib)
 			if err != nil {
@@ -135,6 +129,12 @@ func IndexController(c *gin.Context) {
 	site := sitemap[c.MustGet("host").(string)]
 	mu.RUnlock()
 
+	// add a cache breaker because their thing is dumb
+	if site.Discord != "" {
+		nonce := strconv.Itoa(int(site.Ib)) + strconv.Itoa(int(time.Now().Unix()))
+		site.Discord = strings.Join([]string{site.Discord, nonce}, "?")
+	}
+
 	c.HTML(http.StatusOK, "index", gin.H{
 		"primjs":      config.Settings.Prim.JS,
 		"primcss":     config.Settings.Prim.CSS,
@@ -162,6 +162,12 @@ func ErrorController(c *gin.Context) {
 	mu.RLock()
 	site := sitemap[c.MustGet("host").(string)]
 	mu.RUnlock()
+
+	// add a cache breaker because their thing is dumb
+	if site.Discord != "" {
+		nonce := strconv.Itoa(int(site.Ib)) + strconv.Itoa(int(time.Now().Unix()))
+		site.Discord = strings.Join([]string{site.Discord, nonce}, "?")
+	}
 
 	c.HTML(http.StatusNotFound, "index", gin.H{
 		"primjs":      config.Settings.Prim.JS,

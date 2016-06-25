@@ -129,10 +129,12 @@ func IndexController(c *gin.Context) {
 	site := sitemap[c.MustGet("host").(string)]
 	mu.RUnlock()
 
+	var discord string
+
 	// add a cache breaker because their thing is dumb
 	if site.Discord != "" {
 		nonce := strconv.Itoa(int(site.Ib)) + strconv.Itoa(int(time.Now().Unix()))
-		site.Discord = strings.Join([]string{site.Discord, nonce}, "?")
+		discord = strings.Join([]string{site.Discord, nonce}, "?")
 	}
 
 	c.HTML(http.StatusOK, "index", gin.H{
@@ -147,7 +149,7 @@ func IndexController(c *gin.Context) {
 		"nsfw":        site.Nsfw,
 		"style":       site.Style,
 		"logo":        site.Logo,
-		"discord":     site.Discord,
+		"discord":     discord,
 		"imageboards": site.Imageboards,
 		"csrf":        c.MustGet("csrf_token").(string),
 	})
@@ -163,10 +165,12 @@ func ErrorController(c *gin.Context) {
 	site := sitemap[c.MustGet("host").(string)]
 	mu.RUnlock()
 
+	var discord string
+
 	// add a cache breaker because their thing is dumb
 	if site.Discord != "" {
 		nonce := strconv.Itoa(int(site.Ib)) + strconv.Itoa(int(time.Now().Unix()))
-		site.Discord = strings.Join([]string{site.Discord, nonce}, "?")
+		discord = strings.Join([]string{site.Discord, nonce}, "?")
 	}
 
 	c.HTML(http.StatusNotFound, "index", gin.H{
@@ -181,7 +185,7 @@ func ErrorController(c *gin.Context) {
 		"nsfw":        site.Nsfw,
 		"style":       site.Style,
 		"logo":        site.Logo,
-		"discord":     site.Discord,
+		"discord":     discord,
 		"imageboards": site.Imageboards,
 		"csrf":        c.MustGet("csrf_token").(string),
 	})

@@ -154,8 +154,6 @@ func IndexController(c *gin.Context) {
 		"csrf":        c.MustGet("csrf_token").(string),
 	})
 
-	return
-
 }
 
 // ErrorController generates pages and a 404 response
@@ -189,7 +187,5 @@ func ErrorController(c *gin.Context) {
 		"imageboards": site.Imageboards,
 		"csrf":        c.MustGet("csrf_token").(string),
 	})
-
-	return
 
 }

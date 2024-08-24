@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"net/http"
 	"strconv"
 	"strings"
@@ -96,12 +97,16 @@ func Details() gin.HandlerFunc {
 
 				err = rows.Scan(&ib.Title, &ib.Address)
 				if err != nil {
+					rows.Close() // Explicitly close rows before returning
+					c.JSON(e.ErrorMessage(e.ErrInternalError))
+					c.Error(err).SetMeta("Details.Scan")
+					c.Abort()
 					return
 				}
 
 				sitedata.Imageboards = append(sitedata.Imageboards, ib)
 			}
-			if rows.Err() != nil {
+			if err = rows.Err(); err != nil {
 				c.JSON(e.ErrorMessage(e.ErrInternalError))
 				c.Error(err).SetMeta("Details.Query")
 				c.Abort()
@@ -111,7 +116,14 @@ func Details() gin.HandlerFunc {
 			mu.Lock()
 			sitemap[host] = sitedata
 			mu.Unlock()
+		}
 
+		// if for some reason the site data is still nil, return an error
+		if site == nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve site data"})
+			c.Error(errors.New("site data is nil after database query")).SetMeta("Details.NilCheck")
+			c.Abort()
+			return
 		}
 
 		c.Set("host", host)

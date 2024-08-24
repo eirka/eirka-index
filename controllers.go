@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"errors"
 	"net/http"
 	"strconv"
 	"strings"
@@ -116,14 +115,6 @@ func Details() gin.HandlerFunc {
 			mu.Lock()
 			sitemap[host] = sitedata
 			mu.Unlock()
-		}
-
-		// if for some reason the site data is still nil, return an error
-		if site == nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve site data"})
-			c.Error(errors.New("site data is nil after database query")).SetMeta("Details.NilCheck")
-			c.Abort()
-			return
 		}
 
 		c.Set("host", host)

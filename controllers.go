@@ -136,7 +136,7 @@ func IndexController(c *gin.Context) {
 
 	// add a cache breaker because their thing is dumb
 	if site.Discord != "" {
-		nonce := strconv.Itoa(int(site.Ib)) + strconv.Itoa(int(time.Now().Unix()))
+		nonce := strconv.FormatUint(uint64(site.Ib), 10) + strconv.FormatInt(time.Now().Unix(), 10)
 		discord = strings.Join([]string{site.Discord, nonce}, "?")
 	}
 
@@ -170,7 +170,7 @@ func ErrorController(c *gin.Context) {
 
 	// add a cache breaker because their thing is dumb
 	if site.Discord != "" {
-		nonce := strconv.Itoa(int(site.Ib)) + strconv.Itoa(int(time.Now().Unix()))
+		nonce := strconv.FormatUint(uint64(site.Ib), 10) + strconv.FormatInt(time.Now().Unix(), 10)
 		discord = strings.Join([]string{site.Discord, nonce}, "?")
 	}
 

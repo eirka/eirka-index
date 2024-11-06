@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"time"
 
 	"github.com/facebookgo/grace/gracehttp"
 	"github.com/facebookgo/pidfile"
@@ -86,10 +87,14 @@ func main() {
 	r.NoRoute(ErrorController)
 
 	s := &http.Server{
-		Addr:    fmt.Sprintf("%s:%d", local.Settings.Index.Host, local.Settings.Index.Port),
-		Handler: r,
+		Addr:              fmt.Sprintf("%s:%d", local.Settings.Index.Host, local.Settings.Index.Port),
+		ReadHeaderTimeout: 2 * time.Second,
+		Handler:           r,
 	}
 
-	gracehttp.Serve(s)
+	err = gracehttp.Serve(s)
+	if err != nil {
+		panic("Could not start server")
+	}
 
 }

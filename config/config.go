@@ -18,6 +18,10 @@ func init() {
 			Directories: Directories{
 				AssetsDir: "/data/prim/assets/",
 			},
+			Prim: Prim{
+				CSS: "prim.css",
+				JS:  "prim.js",
+			},
 		}
 		return
 	}
@@ -44,6 +48,13 @@ type Config struct {
 	Index       Index
 	Directories Directories
 	Database    Database
+	Prim        Prim
+}
+
+// Prim holds asset names for Prim
+type Prim struct {
+	CSS string
+	JS  string
 }
 
 // Index sets what the daemon listens on
@@ -66,4 +77,25 @@ type Database struct {
 // Directories sets where files will be stored locally
 type Directories struct {
 	AssetsDir string
+}
+
+// SiteData holds imageboard settings
+type SiteData struct {
+	Ib          uint
+	API         string
+	Img         string
+	Title       string
+	Desc        string
+	Nsfw        bool
+	Style       string
+	Logo        string
+	Base        string
+	Discord     string
+	Imageboards []Imageboard
+}
+
+// Imageboard holds an imageboards metadata
+type Imageboard struct {
+	Title   string
+	Address string
 }

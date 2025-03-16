@@ -15,6 +15,8 @@ import (
 	"github.com/eirka/eirka-libs/db"
 
 	local "github.com/eirka/eirka-index/config"
+	c "github.com/eirka/eirka-index/controllers"
+	m "github.com/eirka/eirka-index/middleware"
 )
 
 func init() {
@@ -62,29 +64,29 @@ func main() {
 	r.SetHTMLTemplate(t)
 
 	// use the details middleware
-	r.Use(Details())
+	r.Use(m.Details())
 	// generates our csrf cookie
 	r.Use(csrf.Cookie())
 
 	// these routes are handled by angularjs
-	r.GET("/", IndexController)
-	r.GET("/page/:id", IndexController)
-	r.GET("/thread/:id/:page", IndexController)
-	r.GET("/directory", IndexController)
-	r.GET("/directory/:page", IndexController)
-	r.GET("/image/:id", IndexController)
-	r.GET("/tags/:page", IndexController)
-	r.GET("/tags", IndexController)
-	r.GET("/tag/:id/:page", IndexController)
-	r.GET("/account", IndexController)
-	r.GET("/trending", IndexController)
-	r.GET("/favorites/:page", IndexController)
-	r.GET("/favorites", IndexController)
-	r.GET("/admin", IndexController)
-	r.GET("/error", ErrorController)
+	r.GET("/", c.IndexController)
+	r.GET("/page/:id", c.IndexController)
+	r.GET("/thread/:id/:page", c.IndexController)
+	r.GET("/directory", c.IndexController)
+	r.GET("/directory/:page", c.IndexController)
+	r.GET("/image/:id", c.IndexController)
+	r.GET("/tags/:page", c.IndexController)
+	r.GET("/tags", c.IndexController)
+	r.GET("/tag/:id/:page", c.IndexController)
+	r.GET("/account", c.IndexController)
+	r.GET("/trending", c.IndexController)
+	r.GET("/favorites/:page", c.IndexController)
+	r.GET("/favorites", c.IndexController)
+	r.GET("/admin", c.IndexController)
+	r.GET("/error", c.ErrorController)
 
 	// if nothing matches
-	r.NoRoute(ErrorController)
+	r.NoRoute(c.ErrorController)
 
 	s := &http.Server{
 		Addr:              fmt.Sprintf("%s:%d", local.Settings.Index.Host, local.Settings.Index.Port),

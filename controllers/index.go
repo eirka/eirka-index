@@ -6,15 +6,17 @@ import (
 	"strings"
 	"time"
 
-	"github.com/eirka/eirka-index/config"
+	"github.com/eirka/eirka-libs/config"
 	"github.com/gin-gonic/gin"
+
+	local "github.com/eirka/eirka-index/config"
 )
 
 // IndexController generates pages for angularjs frontend
 func IndexController(c *gin.Context) {
 
 	// get sitemap from session middleware
-	site := c.MustGet("sitemap").(*config.SiteData)
+	site := c.MustGet("sitemap").(*local.SiteData)
 
 	var discord string
 

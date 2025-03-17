@@ -7,13 +7,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/eirka/eirka-index/config"
 	"github.com/eirka/eirka-libs/db"
 	e "github.com/eirka/eirka-libs/errors"
+
+	local "github.com/eirka/eirka-index/config"
 )
 
 var (
-	sitemap = make(map[string]*config.SiteData)
+	sitemap = make(map[string]*local.SiteData)
 	mu      = new(sync.RWMutex)
 )
 
@@ -38,7 +39,7 @@ func Details() gin.HandlerFunc {
 			// Double-check within the write lock to prevent race
 			site = sitemap[host]
 			if site == nil {
-				sitedata := &config.SiteData{}
+				sitedata := &local.SiteData{}
 
 				// Get Database handle
 				dbase, err := db.GetDb()
@@ -78,7 +79,7 @@ func Details() gin.HandlerFunc {
 				defer rows.Close()
 
 				for rows.Next() {
-					ib := config.Imageboard{}
+					ib := local.Imageboard{}
 
 					err = rows.Scan(&ib.Title, &ib.Address)
 					if err != nil {

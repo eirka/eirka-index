@@ -8,19 +8,20 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/eirka/eirka-libs/config"
+	"github.com/eirka/eirka-libs/csrf"
+	"github.com/eirka/eirka-libs/db"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"
 
-	"github.com/eirka/eirka-index/config"
-	"github.com/eirka/eirka-libs/csrf"
-	"github.com/eirka/eirka-libs/db"
+	local "github.com/eirka/eirka-index/config"
 )
 
 // SimpleHandler is a simple handler for testing that doesn't require templates
 func SimpleHandler(c *gin.Context) {
 	// Get sitemap from middleware
-	site := c.MustGet("sitemap").(*config.SiteData)
+	site := c.MustGet("sitemap").(*local.SiteData)
 
 	// Return JSON instead of HTML
 	c.JSON(http.StatusOK, gin.H{
@@ -46,7 +47,7 @@ func clearSiteCache() {
 	mu.Lock()
 	defer mu.Unlock()
 	// Reset the sitemap to an empty map
-	sitemap = make(map[string]*config.SiteData)
+	sitemap = make(map[string]*local.SiteData)
 }
 
 func setupRouter() (*gin.Engine, sqlmock.Sqlmock, error) {

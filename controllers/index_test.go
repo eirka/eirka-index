@@ -6,11 +6,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/eirka/eirka-index/templates"
+	"github.com/eirka/eirka-libs/config"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/eirka/eirka-index/config"
-	"github.com/eirka/eirka-index/templates"
+	local "github.com/eirka/eirka-index/config"
 )
 
 func setupTemplateRouter() *gin.Engine {
@@ -40,7 +41,7 @@ func TestIndexControllerTemplateRendering(t *testing.T) {
 	r := setupTemplateRouter()
 
 	// Create a test site config
-	testSite := &config.SiteData{
+	testSite := &local.SiteData{
 		Ib:    1,
 		API:   "api.test.com",
 		Img:   "img.test.com",
@@ -49,7 +50,7 @@ func TestIndexControllerTemplateRendering(t *testing.T) {
 		Style: "test.css",
 		Logo:  "logo.png",
 		Base:  "",
-		Imageboards: []config.Imageboard{
+		Imageboards: []local.Imageboard{
 			{Title: "Other Board", Address: "other.board"},
 		},
 	}
@@ -93,7 +94,7 @@ func TestErrorControllerTemplateRendering(t *testing.T) {
 	r := setupTemplateRouter()
 
 	// Create a test site config
-	testSite := &config.SiteData{
+	testSite := &local.SiteData{
 		Ib:    1,
 		API:   "api.test.com",
 		Img:   "img.test.com",
@@ -102,7 +103,7 @@ func TestErrorControllerTemplateRendering(t *testing.T) {
 		Style: "test.css",
 		Logo:  "logo.png",
 		Base:  "",
-		Imageboards: []config.Imageboard{
+		Imageboards: []local.Imageboard{
 			{Title: "Other Board", Address: "other.board"},
 		},
 	}

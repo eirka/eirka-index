@@ -18,10 +18,6 @@ func init() {
 			Directories: Directories{
 				AssetsDir: "/data/prim/assets/",
 			},
-			Prim: Prim{
-				CSS: "prim.css",
-				JS:  "prim.js",
-			},
 		}
 		return
 	}
@@ -48,13 +44,6 @@ type Config struct {
 	Index       Index
 	Directories Directories
 	Database    Database
-	Prim        Prim
-}
-
-// Prim holds asset names for Prim
-type Prim struct {
-	CSS string
-	JS  string
 }
 
 // Index sets what the daemon listens on

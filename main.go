@@ -17,6 +17,7 @@ import (
 	local "github.com/eirka/eirka-index/config"
 	c "github.com/eirka/eirka-index/controllers"
 	m "github.com/eirka/eirka-index/middleware"
+	"github.com/eirka/eirka-index/templates"
 )
 
 func init() {
@@ -51,11 +52,11 @@ func main() {
 	}
 
 	// parse our template
-	t := template.Must(template.New("templates").Delims("[[", "]]").Parse(index))
-	t = template.Must(t.Parse(head))
-	t = template.Must(t.Parse(header))
-	t = template.Must(t.Parse(navmenu))
-	t = template.Must(t.Parse(angular))
+	t := template.Must(template.New("templates").Delims("[[", "]]").Parse(templates.Index))
+	t = template.Must(t.Parse(templates.Head))
+	t = template.Must(t.Parse(templates.Header))
+	t = template.Must(t.Parse(templates.Navmenu))
+	t = template.Must(t.Parse(templates.Angular))
 	t = template.Must(t.ParseGlob(fmt.Sprintf("%s/includes/*.tmpl", local.Settings.Directories.AssetsDir)))
 
 	r := gin.Default()

@@ -1,7 +1,7 @@
-package main
+package templates
 
-// index template
-const index = `[[define "index"]]<!doctype html>
+// Index template
+const Index = `[[define "index"]]<!doctype html>
 <html ng-app="prim" ng-strict-di lang="en">
 [[template "head" . ]]
 <body>
@@ -13,8 +13,8 @@ const index = `[[define "index"]]<!doctype html>
 </body>
 </html>[[end]]`
 
-// head items
-const head = `[[define "head"]]<head>
+// Head items
+const Head = `[[define "head"]]<head>
 <base href="/[[ .base ]]">
 <title ng-bind="page.title">[[ .title ]]</title>
 <meta charset="utf-8" />
@@ -30,8 +30,8 @@ const head = `[[define "head"]]<head>
 [[template "angular" . ]][[template "headinclude" . ]]
 </head>[[end]]`
 
-// angular config
-const angular = `[[define "angular"]]<script>
+// Angular config
+const Angular = `[[define "angular"]]<script>
 angular.module('prim').constant('config',{
 ib_id:[[ .ib ]],
 title:'[[ .title ]]',
@@ -43,8 +43,8 @@ discord_widget:'[[ .discord ]]'
 });
 </script>[[end]]`
 
-// site header
-const header = `[[define "header"]]<div class="header_bar">
+// Site header
+const Header = `[[define "header"]]<div class="header_bar">
 <div class="left">
 <div class="nav_menu" ng-controller="NavMenuCtrl as navmenu">
 <ul click-off="navmenu.close" ng-click="navmenu.toggle()" ng-mouseenter="navmenu.open()" ng-mouseleave="navmenu.close()">
@@ -89,5 +89,5 @@ const header = `[[define "header"]]<div class="header_bar">
 </div>
 </div>[[end]]`
 
-const navmenu = `[[define "navmenu"]][[ range $ib := .imageboards]]<li><a target="_self" href="//[[ $ib.Address ]]">[[ $ib.Title ]]</a></li>
+const Navmenu = `[[define "navmenu"]][[ range $ib := .imageboards]]<li><a target="_self" href="//[[ $ib.Address ]]">[[ $ib.Title ]]</a></li>
 [[end]][[end]]`

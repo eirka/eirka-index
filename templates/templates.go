@@ -91,3 +91,7 @@ const Header = `[[define "header"]]<div class="header_bar">
 
 const Navmenu = `[[define "navmenu"]][[ range $ib := .imageboards]]<li><a target="_self" href="//[[ $ib.Address ]]">[[ $ib.Title ]]</a></li>
 [[end]][[end]]`
+
+// Empty includes for template parsing
+const HeadInclude = `[[define "headinclude"]][[end]]`
+const NavMenuInclude = `[[define "navmenuinclude"]][[end]]`

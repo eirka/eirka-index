@@ -57,6 +57,8 @@ func main() {
 	t = template.Must(t.Parse(templates.Header))
 	t = template.Must(t.Parse(templates.Navmenu))
 	t = template.Must(t.Parse(templates.Angular))
+	t = template.Must(t.Parse(templates.HeadInclude)) // Add empty templates for includes
+	t = template.Must(t.Parse(templates.NavMenuInclude))
 	t = template.Must(t.ParseGlob(fmt.Sprintf("%s/includes/*.tmpl", local.Settings.Directories.AssetsDir)))
 
 	r := gin.Default()

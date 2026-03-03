@@ -44,7 +44,7 @@ func Details() gin.HandlerFunc {
 				// Get Database handle
 				dbase, err := db.GetDb()
 				if err != nil {
-					mu.Unlock() // Make sure we unlock before aborting
+					mu.Unlock()
 					c.JSON(e.ErrorMessage(e.ErrInternalError))
 					c.Error(err).SetMeta("Details.GetDb")
 					c.Abort()
@@ -54,54 +54,23 @@ func Details() gin.HandlerFunc {
 				// get the info about the imageboard
 				err = dbase.QueryRow(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo,ib_discord FROM imageboards WHERE ib_domain = ?`, host).Scan(&sitedata.Ib, &sitedata.Title, &sitedata.Desc, &sitedata.Nsfw, &sitedata.API, &sitedata.Img, &sitedata.Style, &sitedata.Logo, &sitedata.Discord)
 				if err == sql.ErrNoRows {
-					mu.Unlock() // Make sure we unlock before aborting
+					mu.Unlock()
 					c.JSON(e.ErrorMessage(e.ErrNotFound))
 					c.Error(err).SetMeta("Details.QueryRow")
 					c.Abort()
 					return
 				} else if err != nil {
-					mu.Unlock() // Make sure we unlock before aborting
+					mu.Unlock()
 					c.JSON(e.ErrorMessage(e.ErrInternalError))
 					c.Error(err).SetMeta("Details.QueryRow")
-					c.Abort()
-					return
-				}
-
-				// collect the links to the other imageboards for nav menu
-				rows, err := dbase.Query(`SELECT ib_title,ib_domain FROM imageboards WHERE ib_id != ?`, sitedata.Ib)
-				if err != nil {
-					mu.Unlock() // Make sure we unlock before aborting
-					c.JSON(e.ErrorMessage(e.ErrInternalError))
-					c.Error(err).SetMeta("Details.Query")
-					c.Abort()
-					return
-				}
-				defer rows.Close()
-
-				for rows.Next() {
-					ib := local.Imageboard{}
-
-					err = rows.Scan(&ib.Title, &ib.Address)
-					if err != nil {
-						mu.Unlock() // Make sure we unlock before aborting
-						c.JSON(e.ErrorMessage(e.ErrInternalError))
-						c.Error(err).SetMeta("Details.Scan")
-						c.Abort()
-						return
-					}
-
-					sitedata.Imageboards = append(sitedata.Imageboards, ib)
-				}
-				if err = rows.Err(); err != nil {
-					mu.Unlock() // Make sure we unlock before aborting
-					c.JSON(e.ErrorMessage(e.ErrInternalError))
-					c.Error(err).SetMeta("Details.Query")
 					c.Abort()
 					return
 				}
 
 				sitemap[host] = sitedata
 			}
+			// Capture the value while still holding the lock
+			site = sitemap[host]
 			mu.Unlock()
 		}
 
@@ -109,7 +78,7 @@ func Details() gin.HandlerFunc {
 
 		// set the site data for the request
 		// this is used in the controllers
-		c.Set("sitemap", sitemap[host])
+		c.Set("sitemap", site)
 
 		c.Next()
 

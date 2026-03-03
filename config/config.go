@@ -70,21 +70,13 @@ type Directories struct {
 
 // SiteData holds imageboard settings
 type SiteData struct {
-	Ib          uint
-	API         string
-	Img         string
-	Title       string
-	Desc        string
-	Nsfw        bool
-	Style       string
-	Logo        string
-	Base        string
-	Discord     string
-	Imageboards []Imageboard
-}
-
-// Imageboard holds an imageboards metadata
-type Imageboard struct {
+	Ib      uint
+	API     string
+	Img     string
 	Title   string
-	Address string
+	Desc    string
+	Nsfw    bool
+	Style   string
+	Logo    string
+	Discord string
 }

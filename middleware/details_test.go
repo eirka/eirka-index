@@ -25,9 +25,8 @@ func SimpleHandler(c *gin.Context) {
 
 	// Return JSON instead of HTML
 	c.JSON(http.StatusOK, gin.H{
-		"ib_id":             site.Ib,
-		"title":             site.Title,
-		"imageboards_count": len(site.Imageboards),
+		"ib_id": site.Ib,
+		"title": site.Title,
 	})
 }
 
@@ -86,27 +85,18 @@ func TestDetailsSQLSuccess(t *testing.T) {
 	assert.NoError(t, err, "Setup should not error")
 	defer db.CloseDb()
 
-	// Mock first query for imageboard settings
+	// Mock query for imageboard settings
 	ibrows := sqlmock.NewRows([]string{"ib_id", "ib_title", "ib_description", "ib_nsfw", "ib_api", "ib_img", "ib_style", "ib_logo", "ib_discord"}).
 		AddRow(1, "test board", "a test board", false, "http://test.board/api", "http://test.board/images", "style.css", "logo.png", "http://test.board/discord.json")
 	mock.ExpectQuery(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo,ib_discord FROM imageboards WHERE ib_domain = \?`).
 		WithArgs("test.board").
 		WillReturnRows(ibrows)
 
-	// Mock second query for other imageboards
-	otheribrows := sqlmock.NewRows([]string{"ib_title", "ib_domain"}).
-		AddRow("other board", "http://other.board").
-		AddRow("another board", "http://another.board")
-	mock.ExpectQuery(`SELECT ib_title,ib_domain FROM imageboards WHERE ib_id != \?`).
-		WithArgs(1).
-		WillReturnRows(otheribrows)
-
 	resp := performHTMLRequest(router, "GET", "/", "test.board")
 
 	// Check response
 	assert.Equal(t, 200, resp.Code, "HTTP request code should match")
 	assert.Contains(t, resp.Body.String(), "\"ib_id\":1", "Response should contain ib_id:1")
-	assert.Contains(t, resp.Body.String(), "\"imageboards_count\":2", "Response should have 2 imageboards")
 
 	assert.NoError(t, mock.ExpectationsWereMet(), "An error was not expected")
 }
@@ -141,12 +131,6 @@ func TestDetailsCachedLookup(t *testing.T) {
 		WithArgs("test.board").
 		WillReturnRows(ibrows)
 
-	otheribrows := sqlmock.NewRows([]string{"ib_title", "ib_domain"}).
-		AddRow("other board", "http://other.board")
-	mock.ExpectQuery(`SELECT ib_title,ib_domain FROM imageboards WHERE ib_id != \?`).
-		WithArgs(1).
-		WillReturnRows(otheribrows)
-
 	// First request - populates cache
 	resp1 := performHTMLRequest(router, "GET", "/", "test.board")
 	assert.Equal(t, 200, resp1.Code, "First request should succeed")
@@ -166,27 +150,13 @@ func TestDetailsDatabaseErrors(t *testing.T) {
 	assert.NoError(t, err, "Setup should not error")
 	defer db.CloseDb()
 
-	// Test case 1: First query fails
+	// Test: Query fails with database error
 	mock.ExpectQuery(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo,ib_discord FROM imageboards WHERE ib_domain = \?`).
 		WithArgs("test.board").
 		WillReturnError(fmt.Errorf("database error"))
 
-	resp1 := performHTMLRequest(router, "GET", "/", "test.board")
-	assert.Equal(t, 500, resp1.Code, "Should return 500 on database error")
-
-	// Test case 2: Second query fails
-	ibrows := sqlmock.NewRows([]string{"ib_id", "ib_title", "ib_description", "ib_nsfw", "ib_api", "ib_img", "ib_style", "ib_logo", "ib_discord"}).
-		AddRow(2, "another board", "description", false, "http://api", "http://img", "style.css", "logo.png", "discord.json")
-	mock.ExpectQuery(`SELECT ib_id,ib_title,ib_description,ib_nsfw,ib_api,ib_img,ib_style,ib_logo,ib_discord FROM imageboards WHERE ib_domain = \?`).
-		WithArgs("test.board").
-		WillReturnRows(ibrows)
-
-	mock.ExpectQuery(`SELECT ib_title,ib_domain FROM imageboards WHERE ib_id != \?`).
-		WithArgs(2).
-		WillReturnError(fmt.Errorf("database error"))
-
-	resp2 := performHTMLRequest(router, "GET", "/", "test.board")
-	assert.Equal(t, 500, resp2.Code, "Should return 500 on database error")
+	resp := performHTMLRequest(router, "GET", "/", "test.board")
+	assert.Equal(t, 500, resp.Code, "Should return 500 on database error")
 
 	assert.NoError(t, mock.ExpectationsWereMet(), "An error was not expected")
 }
@@ -202,11 +172,6 @@ func TestHostPortStripping(t *testing.T) {
 		WithArgs("test.board").
 		WillReturnRows(sqlmock.NewRows([]string{"ib_id", "ib_title", "ib_description", "ib_nsfw", "ib_api", "ib_img", "ib_style", "ib_logo", "ib_discord"}).
 			AddRow(1, "test board", "a test board", false, "http://test.board/api", "http://test.board/images", "style.css", "logo.png", "http://test.board/discord.json"))
-
-	mock.ExpectQuery(`SELECT ib_title,ib_domain FROM imageboards WHERE ib_id != \?`).
-		WithArgs(1).
-		WillReturnRows(sqlmock.NewRows([]string{"ib_title", "ib_domain"}).
-			AddRow("other board", "http://other.board"))
 
 	// Use a host with a port
 	resp := performHTMLRequest(router, "GET", "/", "test.board:8080")

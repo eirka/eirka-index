@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"path/filepath"
 	"time"
 
 	"github.com/facebookgo/grace/gracehttp"
@@ -54,12 +55,14 @@ func main() {
 	// parse our template
 	t := template.Must(template.New("templates").Delims("[[", "]]").Parse(templates.Index))
 	t = template.Must(t.Parse(templates.Head))
-	t = template.Must(t.Parse(templates.Header))
-	t = template.Must(t.Parse(templates.Navmenu))
-	t = template.Must(t.Parse(templates.Angular))
-	t = template.Must(t.Parse(templates.HeadInclude)) // Add empty templates for includes
-	t = template.Must(t.Parse(templates.NavMenuInclude))
-	t = template.Must(t.ParseGlob(fmt.Sprintf("%s/includes/*.tmpl", local.Settings.Directories.AssetsDir)))
+	t = template.Must(t.Parse(templates.PrimConfig))
+	t = template.Must(t.Parse(templates.HeadInclude))
+
+	// Load deployment-specific template overrides if any exist
+	includesGlob := fmt.Sprintf("%s/includes/*.tmpl", local.Settings.Directories.AssetsDir)
+	if matches, err := filepath.Glob(includesGlob); err == nil && len(matches) > 0 {
+		t = template.Must(t.ParseGlob(includesGlob))
+	}
 
 	r := gin.Default()
 
@@ -71,7 +74,7 @@ func main() {
 	// generates our csrf cookie
 	r.Use(csrf.Cookie())
 
-	// these routes are handled by angularjs
+	// these routes are handled by the Vue SPA
 	r.GET("/", c.IndexController)
 	r.GET("/page/:id", c.IndexController)
 	r.GET("/thread/:id/:page", c.IndexController)

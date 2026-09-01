@@ -46,3 +46,9 @@ gofmt -s -w .
 6. **Architecture**:
    - MVC-like pattern (controllers, middleware)
    - Configuration in separate package
+
+## Test prerequisites
+- Go toolchain only (go.mod: go 1.26.0); no MySQL, Redis, env vars or network. DB is sqlmock via `db.NewTestDb()` (eirka-libs), templates are Go string consts, `config.Settings` is set per test. Root `main.go` `init()` dials MySQL but the root package has no tests, so `go test ./...` never runs it.
+
+## Fleet conventions
+`make check` (gofmt -s, go vet, build, `go test -count=1 ./...`) is the review gate for code diffs; Fleet policy (not enforced by this repo's Makefile): module-only diffs (go.mod/go.sum dependency bumps) gate on `make test` only.
